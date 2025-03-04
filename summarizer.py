@@ -1,25 +1,27 @@
 import nltk
-import torch
-from transformers import pipeline
-from nltk.tokenize import sent_tokenize
+from nltk.tokenize import sent_tokenize, word_tokenize
+from collections import Counter
+
 nltk.download('punkt')
 
-# Load Hugging Face Abstractive Model
-abstractive_summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
-
-def extractive_summary(text, num_sentences=3):
-    """Extractive summarization using sentence ranking (basic approach)."""
+def generate_summary(text):
     sentences = sent_tokenize(text)
-    return ' '.join(sentences[:num_sentences]) if len(sentences) > num_sentences else text
+    
+    if len(sentences) <= 3:
+        return text  # Return the full text if it's short
 
-def abstractive_summary(text):
-    """Abstractive summarization using Transformer model."""
-    return abstractive_summarizer(text, max_length=130, min_length=30, do_sample=False)[0]['summary_text']
+    # Word Frequency-Based Summarization (Extractive Approach)
+    words = word_tokenize(text.lower())
+    word_freq = Counter(words)
 
-def generate_summary(text, summary_type):
-    """Decides which summarization method to use."""
-    if summary_type == "extractive":
-        return extractive_summary(text)
-    elif summary_type == "abstractive":
-        return abstractive_summary(text)
-    return "Invalid summarization type selected."
+    sentence_scores = {}
+    for sentence in sentences:
+        score = sum(word_freq[word.lower()] for word in word_tokenize(sentence) if word.lower() in word_freq)
+        sentence_scores[sentence] = score
+
+    # Select top 30% of sentences based on scores
+    num_sentences = max(1, len(sentences) // 3)
+    summary_sentences = sorted(sentence_scores, key=sentence_scores.get, reverse=True)[:num_sentences]
+    
+    summary = " ".join(summary_sentences)
+    return summary
