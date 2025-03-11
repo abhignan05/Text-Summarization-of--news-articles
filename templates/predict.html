@@ -6,47 +6,103 @@
     <title>Summarize News</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
+        /* Create a continuously changing background */
         body {
-            background: linear-gradient(120deg, #36d1dc, #5b86e5);
+            background: linear-gradient(-45deg, #ff4e50, #fc913a, #f9d423, #30cfd0, #330867);
+            background-size: 400% 400%;
+            animation: gradientAnimation 5s infinite ease-in-out;
             font-family: 'Poppins', sans-serif;
             color: white;
             text-align: center;
-            padding-top: 10%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.5s ease-in-out;
         }
+
+        /* Smooth color transition animation */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 50% 100%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 0%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .container {
-            background: rgba(0, 0, 0, 0.6);
-            padding: 20px;
+            background: rgba(0, 0, 0, 0.6); /* Darker for better contrast */
+            padding: 30px;
             border-radius: 15px;
-            box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.3);
-            width: 60%;
+            box-shadow: 0px 5px 20px rgba(255, 255, 255, 0.3);
+            width: 50%;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1s ease-in-out;
         }
+
+        /* Subtle fade-in effect */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-weight: bold;
+            font-size: 30px;
+            color: #ffdd57;
+        }
+
         textarea {
             width: 100%;
-            height: 150px;
-            border-radius: 10px;
-            padding: 10px;
+            height: 140px;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.5); /* Adds a clear border */
+            outline: none;
+            font-size: 16px;
+            background: rgba(0, 0, 0, 0.8); /* Darker background */
+            color: white; /* White text for contrast */
             resize: none;
+            transition: all 0.3s ease;
         }
+
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6); /* Visible but subtle */
+        }
+
+        textarea:focus {
+            background: rgba(0, 0, 0, 0.9);
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.5);
+            border-color: #ffdd57;
+        }
+
         .btn-custom {
-            background: linear-gradient(90deg, #ff758c, #ff7eb3);
+            background: linear-gradient(90deg, #ff7eb3, #ff758c);
             border: none;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border-radius: 25px;
             font-weight: bold;
+            font-size: 16px;
             transition: 0.3s;
+            cursor: pointer;
+            margin-top: 15px;
+            display: inline-block;
         }
+
         .btn-custom:hover {
             transform: scale(1.1);
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
         }
+
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Summarize Your News Article</h1>
-        <form action="/predict" method="post">
+        <form action="/predict" method="POST">
             <textarea name="news_article" placeholder="Paste your news article here..." required></textarea>
             <br>
-            <button type="submit" class="btn btn-custom mt-3">Summarize</button>
+            <button type="submit" class="btn btn-custom">Summarize</button>
         </form>
     </div>
 </body>

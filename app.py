@@ -11,7 +11,7 @@ def index():
 def predict():
     if request.method == 'POST':
         news_article = request.form['news_article']
-        summary = generate_summary(news_article)  # No summary type selection now
+        summary = generate_summary(news_article)
         return render_template('result.html', news_article=news_article, summary=summary)
 
     return render_template('predict.html')
