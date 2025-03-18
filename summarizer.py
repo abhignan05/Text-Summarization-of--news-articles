@@ -1,24 +1,35 @@
 from transformers import pipeline
+import torch
+import gc  # Garbage collection
 
-# Load the summarization model
-summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+# Optimized lightweight model
+model_name = "sshleifer/distilbart-cnn-12-6"
+summarizer = pipeline("summarization", model=model_name, device=-1)  # CPU deployment
 
-def generate_summary(text):
+def summarize_text(text):
     """
-    Generate an abstractive summary of the given text.
+    Summarizes input text while ensuring complete, structured sentences.
+    """
     
-    - If the text is long (more than 2 paragraphs), return 4-5 lines.
-    - If the text is short (1-2 paragraphs), return 2-3 lines.
-    """
-    word_count = len(text.split())  # Count words in input text
+    # Merge paragraphs into a single string
+    cleaned_text = " ".join(text.split("\n"))
 
-    if word_count > 100:  # If the article is long (more than ~2 paragraphs)
-        min_len = 80   # Ensure at least 4-5 lines
-        max_len = 120
-    else:  # If the article is short (1-2 paragraphs)
-        min_len = 20   # Ensure at least 2-3 lines
-        max_len = 50
+    # Summary constraints to prevent sentence truncation
+    max_len = 160  # Ensure enough space for full sentences
+    min_len = 80   # Prevent very short, incomplete summaries
 
     # Generate summary
-    summary = summarizer(text, max_length=max_len, min_length=min_len, length_penalty=1.0, do_sample=False)
+    summary = summarizer(
+        cleaned_text, 
+        max_length=max_len, 
+        min_length=min_len, 
+        length_penalty=2.0,  # Promotes sentence structure
+        early_stopping=True,  # Stops generating mid-word
+        clean_up_tokenization_spaces=True,  # Removes unnecessary spaces
+        do_sample=False
+    )
+
+    # Clear memory after processing
+    gc.collect()
+
     return summary[0]['summary_text']

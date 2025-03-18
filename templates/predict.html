@@ -21,7 +21,6 @@
             transition: background 0.5s ease-in-out;
         }
 
-        /* Smooth color transition animation */
         @keyframes gradientAnimation {
             0% { background-position: 0% 50%; }
             25% { background-position: 50% 100%; }
@@ -31,7 +30,7 @@
         }
 
         .container {
-            background: rgba(0, 0, 0, 0.6); /* Darker for better contrast */
+            background: rgba(0, 0, 0, 0.6);
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0px 5px 20px rgba(255, 255, 255, 0.3);
@@ -40,7 +39,6 @@
             animation: fadeIn 1s ease-in-out;
         }
 
-        /* Subtle fade-in effect */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -57,17 +55,17 @@
             height: 140px;
             padding: 15px;
             border-radius: 12px;
-            border: 2px solid rgba(255, 255, 255, 0.5); /* Adds a clear border */
+            border: 2px solid rgba(255, 255, 255, 0.5);
             outline: none;
             font-size: 16px;
-            background: rgba(0, 0, 0, 0.8); /* Darker background */
-            color: white; /* White text for contrast */
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
             resize: none;
             transition: all 0.3s ease;
         }
 
         textarea::placeholder {
-            color: rgba(255, 255, 255, 0.6); /* Visible but subtle */
+            color: rgba(255, 255, 255, 0.6);
         }
 
         textarea:focus {
@@ -93,17 +91,21 @@
             transform: scale(1.1);
             box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
         }
-
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Summarize Your News Article</h1>
         <form action="/predict" method="POST">
-            <textarea name="news_article" placeholder="Paste your news article here..." required></textarea>
+            <textarea name="news_article" placeholder="Paste your news article here..." required>{{ input_text }}</textarea>
             <br>
             <button type="submit" class="btn btn-custom">Summarize</button>
         </form>
+
+        {% if summary %}
+            <h2>Summary:</h2>
+            <p>{{ summary }}</p>
+        {% endif %}
     </div>
 </body>
 </html>
