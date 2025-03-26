@@ -12,13 +12,13 @@ def home():
 def predict():
     if request.method == "POST":
         text = request.form.get("news_article", "").strip()
-        print("Received text:", text)  # Debugging step
+        
 
         if not text:
             return render_template('predict.html', summary="⚠️ Please enter valid text.", input_text="")
 
         summary = summarize_text(text)  
-        print("Generated summary:", summary)  # Debugging step
+        
         
         return render_template('predict.html', summary=summary, input_text=text)
 
