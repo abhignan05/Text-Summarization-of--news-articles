@@ -1,0 +1,46 @@
+body {
+    background: url('https://source.unsplash.com/1600x900/?news,technology') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    text-align: center;
+}
+
+.container {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.3);
+    width: 50%;
+    margin: auto;
+    margin-top: 10%;
+}
+
+.btn {
+    background: linear-gradient(90deg, #17ead9, #6078ea);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: 0.3s;
+    color: white;
+    text-decoration: none;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+textarea {
+    width: 90%;
+    height: 120px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.summary-box {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
